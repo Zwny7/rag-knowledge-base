@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RAG知识库问答</title>
+  <link rel="stylesheet" href="/static/site.css?v=theme-2">
+  <script src="/static/site.js" defer></script>
+</head>
+<body>
+  <header class="top"><div class="frame bar">
+    <a class="brand" href="/"><span class="mark" aria-hidden="true">✦</span> 知识库问答</a>
+    <a class="api" href="/docs" target="_blank" rel="noopener">接口文档 ↗</a>
+  </div></header>
+  <main class="frame">
+    <section id="knowledge-panel">
+      <div class="intro"><div><h1>知识库问答</h1><p>从星尘笔记手册查找配置、权限和操作说明。</p></div>
+        <div class="index"><span id="index-status">正在读取索引…</span><button id="reindex" class="secondary" type="button">重建索引</button></div>
+      </div>
+      <div class="layout">
+        <form class="card" id="ask-form">
+          <label for="question">你的问题</label>
+          <textarea id="question" rows="4" minlength="2" maxlength="500" required placeholder="例如：免费版可以建几个空间？"></textarea>
+          <div class="choices" aria-label="示例问题">
+            <button type="button" class="chip" data-question="免费版可以建几个空间？">免费版空间上限</button>
+            <button type="button" class="chip" data-question="两台设备同时修改同一篇笔记会怎么处理？">多设备同步冲突</button>
+            <button type="button" class="chip" data-question="只读成员能导出团队笔记吗？">只读成员权限</button>
+          </div>
+          <div class="field"><label for="document">资料范围</label><select id="document"><option value="">全部资料</option></select></div>
+          <div class="row">
+            <div class="field"><label for="mode">检索方式</label><select id="mode"><option value="hybrid">混合检索</option><option value="bm25">BM25 关键词</option><option value="vector">向量检索</option></select></div>
+            <div class="field"><label for="answer-mode">回答方式</label><select id="answer-mode"><option value="local">原文摘录</option><option value="model">大模型回答</option></select></div>
+          </div>
+          <button type="submit">查询知识库</button>
+          <p id="ask-status" class="status" role="status"></p>
+        </form>
+        <div class="card" id="answer" aria-live="polite"><h2>回答与依据</h2><p class="muted">提交问题后，这里会展示回答和检索到的手册片段。</p></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
