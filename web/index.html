@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>RAG知识库问答</title>
-  <link rel="stylesheet" href="/static/site.css?v=theme-2">
-  <script src="/static/site.js" defer></script>
+  <title>知识库问答</title>
+  <link rel="stylesheet" href="/static/site.css?v=4">
+  <script src="/static/site.js?v=4" defer></script>
 </head>
 <body>
   <header class="top"><div class="frame bar">
@@ -14,7 +14,7 @@
   </div></header>
   <main class="frame">
     <section id="knowledge-panel">
-      <div class="intro"><div><h1>知识库问答</h1><p>从星尘笔记手册查找配置、权限和操作说明。</p></div>
+      <div class="intro"><div><h1>知识库问答</h1><p>查手册里的套餐限制、协作权限和操作步骤。</p></div>
         <div class="index"><span id="index-status">正在读取索引…</span><button id="reindex" class="secondary" type="button">重建索引</button></div>
       </div>
       <div class="layout">
@@ -34,7 +34,7 @@
           <button type="submit">查询知识库</button>
           <p id="ask-status" class="status" role="status"></p>
         </form>
-        <div class="card" id="answer" aria-live="polite"><h2>回答与依据</h2><p class="muted">提交问题后，这里会展示回答和检索到的手册片段。</p></div>
+        <div class="card" id="answer" aria-live="polite"><h2>回答与依据</h2><p class="muted">还没有查询。可以先试试「免费版空间上限」。</p></div>
       </div>
     </section>
   </main>

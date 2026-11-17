@@ -41,16 +41,31 @@ function setIndex(info) {
 function renderAnswer(result) {
   const node = byId("answer");
   const types = { hybrid: "混合检索", bm25: "BM25", vector: "向量检索" };
+  const answer = element("p", "", "answer-text");
+  for (const part of result.answer.split(/(\[\d+\])/u)) {
+    const number = /^\[(\d+)\]$/u.exec(part);
+    if (number && result.citations.includes(Number(number[1]))) {
+      answer.append(citationLink(Number(number[1])));
+    } else {
+      answer.append(document.createTextNode(part));
+    }
+  }
   node.replaceChildren(
     element("h2", "回答与依据"),
     element("span", `${types[result.mode]} · ${result.answer_type === "model" ? "模型回答" : "原文摘录"}`, "tag"),
-    element("p", result.answer, "answer-text"),
+    answer,
   );
   if (result.citations.length && result.answer_type === "model") {
-    node.append(element("p", "引用 " + result.citations.map((id) => `[${id}]`).join(" "), "muted"));
+    const citations = element("p", "引用 ", "citations");
+    for (const id of result.citations) citations.append(citationLink(id), " ");
+    node.append(citations);
+  }
+  if (result.sources.length) {
+    node.append(element("h3", "检索到的原文", "source-heading"));
   }
   for (const source of result.sources) {
     const details = element("details", "");
+    details.id = `source-${source.id}`;
     details.open = result.citations.includes(source.id) && source.id === result.citations[0];
     const position = source.heading || (source.page ? `第 ${source.page} 页` : "");
     details.append(
@@ -59,6 +74,21 @@ function renderAnswer(result) {
     );
     node.append(details);
   }
+}
+
+function citationLink(id) {
+  const link = element("a", `[${id}]`, "citation");
+  link.href = `#source-${id}`;
+  link.setAttribute("aria-label", `打开引用 ${id}`);
+  link.addEventListener("click", event => {
+    const source = byId(`source-${id}`);
+    if (!source) return;
+    event.preventDefault();
+    source.open = true;
+    source.querySelector("summary").focus();
+    source.scrollIntoView({ block: "nearest" });
+  });
+  return link;
 }
 
 
